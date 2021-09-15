@@ -1,28 +1,51 @@
 import React from "react"; // Must be all  react  component. 
 
 class UserSignupPage extends React.Component {
-   
+
+
+    state = {
+        username: null,
+        displayName : null,
+        password : null,
+        passwordrepeat : null,
+        agreedClicked : false
+    }
+
+    onChange = Event => {
+        const { name , value} = Event.target;
+        this.setState({
+            [name] : value // burada name bir değişken keyi ifade ediyor o yüzden köşeli parantezle yazıyoruz.
+        })
+    }
+
+    onChangeAgree = Event => {
+        this.setState({
+            agreedClicked: Event.target.checked
+        })
+    }
+  
     render() {
       return(
           <form> 
             <h1>Sign Up</h1>
             <div>
                 <label>Username</label>
-                <input></input>
+                <input name = "username" onChange={this.onChange}/>
             </div>
             <div>
                 <label>Display Name</label>
-                <input></input> 
+                <input  name = "displayName" onChange={this.onChange}></input> 
             </div>
             <div>
                 <label>Password</label>
-                <input type="password"></input>
+                <input name="password" type="password" onChange={this.onChange}></input>
             </div>
             <div>
                 <label>Password Repeat</label>
-                <input type="password"></input>
+                <input  name = "passwordrepeat" type="password" onChange={this.onChange}></input>
             </div>
-            <button>Sign Up</button>
+            <input type="checkbox" onChange={this.onChangeAgree}/> Agreed
+            <button disabled={! this.state.agreedClicked}>Sign Up</button>
           </form>
       );
     }
