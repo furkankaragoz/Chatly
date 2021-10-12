@@ -36,32 +36,37 @@ class UserSignupPage extends React.Component {
             password 
         }
 
-        axios.post('http://localhost:8080/api/1.0/users',body)
+        axios.post('/api/1.0/users',body) // Bunun direk /api/1.0/users olarak çalışmasını istiyoruz.
     }
   
     render() {
       return(
-          <form> 
-            <h1>Sign Up</h1>
-            <div>
-                <label>Username</label>
-                <input name = "username" onChange={this.onChange}/>
-            </div>
-            <div>
-                <label>Display Name</label>
-                <input  name = "displayName" onChange={this.onChange}></input> 
-            </div>
-            <div>
-                <label>Password</label>
-                <input name="password" type="password" onChange={this.onChange}></input>
-            </div>
-            <div>
-                <label>Password Repeat</label>
-                <input  name = "passwordrepeat" type="password" onChange={this.onChange}></input>
-            </div>
-            <input type="checkbox" onChange={this.onChangeAgree}/> Agreed
-            <button onClick={this.onClickSignup} disabled={! this.state.agreedClicked}>Sign Up</button>
-          </form>
+          <div className="container">
+            <form> 
+                <h1 className="text-center">Sign Up</h1>
+                <div className="mb-3">
+                    <label>Username</label>
+                    <input className="form-control" name = "username" onChange={this.onChange}/>
+                </div>
+                <div className="mb-3">
+                    <label>Display Name</label>
+                    <input  className="form-control" name = "displayName" onChange={this.onChange}></input> 
+                </div>
+                <div className="mb-3">
+                    <label>Password</label>
+                    <input  className="form-control" name="password" type="password" onChange={this.onChange}></input>
+                </div>
+                <div className="mb-3">
+                    <label>Password Repeat</label>
+                    <input  className="form-control" name = "passwordrepeat" type="password" onChange={this.onChange}></input>
+                </div>
+                <input type="checkbox" onChange={this.onChangeAgree}/> Agreed
+                <div className="text-center">
+                    <button className="btn btn-primary" onClick={this.onClickSignup} disabled={! this.state.agreedClicked}>Sign Up</button>
+                </div>          
+            </form>
+          </div>
+          
       );
     }
 }
@@ -69,3 +74,4 @@ class UserSignupPage extends React.Component {
 export default UserSignupPage;
 
 
+ */
