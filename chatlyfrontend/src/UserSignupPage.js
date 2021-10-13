@@ -9,19 +9,14 @@ class UserSignupPage extends React.Component {
         displayName : null,
         password : null,
         passwordrepeat : null,
-        agreedClicked : false
+        agreedClicked : false,
+        pendingApiCall: false
     }
 
     onChange = Event => {
         const { name , value} = Event.target;
         this.setState({
             [name] : value // burada name bir değişken keyi ifade ediyor o yüzden köşeli parantezle yazıyoruz.
-        })
-    }
-
-    onChangeAgree = Event => {
-        this.setState({
-            agreedClicked: Event.target.checked
         })
     }
 
@@ -35,8 +30,14 @@ class UserSignupPage extends React.Component {
             displayName,
             password 
         }
+        this.setState({pendingApiCall: true});
 
-        axios.post('/api/1.0/users',body) // Bunun direk /api/1.0/users olarak çalışmasını istiyoruz.
+        axios.post('/api/1.0/users',body)
+        .then((response) => {
+            this.setState({pendingApiCall: false});
+        }).catch(error => {
+            this.setState({pendingApiCall: false});
+        }); 
     }
   
     render() {
@@ -60,9 +61,10 @@ class UserSignupPage extends React.Component {
                     <label>Password Repeat</label>
                     <input  className="form-control" name = "passwordrepeat" type="password" onChange={this.onChange}></input>
                 </div>
-                <input type="checkbox" onChange={this.onChangeAgree}/> Agreed
                 <div className="text-center">
-                    <button className="btn btn-primary" onClick={this.onClickSignup} disabled={! this.state.agreedClicked}>Sign Up</button>
+                    <button  className="btn btn-primary"  onClick={this.onClickSignup}  disabled={this.state.pendingApiCall}>Sign Up
+                        {this.state.pendingApiCall && <span className="spinner-border spinner-border-sm"></span>}
+                    </button>
                 </div>          
             </form>
           </div>
