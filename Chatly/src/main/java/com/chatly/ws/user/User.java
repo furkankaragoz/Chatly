@@ -23,5 +23,3 @@ public class User {
 
 }
 
-
-// Postmandan user fieldlarını json olarak yollayınca  "Jackson" devreye giriyor ve bu keyleri objeye çeviriyor.
