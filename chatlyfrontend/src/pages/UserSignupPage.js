@@ -10,13 +10,19 @@ class UserSignupPage extends React.Component {
         password : null,
         passwordrepeat : null,
         agreedClicked : false,
-        pendingApiCall: false
+        pendingApiCall: false,
+        errors : {
+            
+        }
     }
 
     onChange = Event => {
         const { name , value} = Event.target;
+        const errors = {... this.state.errors}
+        errors[name] = undefined
         this.setState({
-            [name] : value // burada name bir değişken keyi ifade ediyor o yüzden köşeli parantezle yazıyoruz.
+            [name] : value, // burada name bir değişken keyi ifade ediyor o yüzden köşeli parantezle yazıyoruz.
+            errors
         })
     }
 
@@ -37,7 +43,9 @@ class UserSignupPage extends React.Component {
             const response = await signup(body);
         }
         catch(error) {
-
+            if(error.response.data.validationErrors) {
+                this.setState({errors : error.response.data.validationErrors});
+            }
         }
 
         this.setState({pendingApiCall: false});
@@ -52,14 +60,17 @@ class UserSignupPage extends React.Component {
     };
   
     render() {
-        const { pendingApiCall} = this.state;
+        const { pendingApiCall, errors} = this.state;
+        const { username } = errors;
+
       return(
           <div className="container">
             <form> 
                 <h1 className="text-center">Sign Up</h1>
                 <div className="mb-3">
                     <label>Username</label>
-                    <input className="form-control" name = "username" onChange={this.onChange}/>
+                    <input className={username ? "form-control is-invalid" :"form-control"} name = "username" onChange={this.onChange}/>
+                    <div className="invalid-feedback">{username}</div>
                 </div>
                 <div className="mb-3">
                     <label>Display Name</label>
